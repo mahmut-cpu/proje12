@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Dashboard</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Welcome to your Dashboard, <span th:text="${user.username}">User</span>!</h1>
+
+<div>
+    <h2>Your Profile</h2>
+    <p><strong>Username:</strong> <span th:text="${user.username}">username</span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}">email</span></p>
+</div>
+
+<div>
+    <h2>Edit Profile</h2>
+</div>
+</body>
+</html>

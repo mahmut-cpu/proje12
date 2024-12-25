@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .button {
+            font-size: 18px;
+            padding: 15px 30px;
+            margin: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .admin-button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .user-button {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to the Public Page</h1>
+    <p>Please choose an option below:</p>
+    <div>
+        <a href="/login-admin" class="button admin-button">Admin</a>
+        <a href="/login-user" class="button user-button">User</a>
+    </div>
+</div>
+</body>
+</html>
