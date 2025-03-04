@@ -27,6 +27,10 @@ public class UserService implements UserDetailsService {
     public User registerUser(User user) {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
 
+        Optional<User> existingUserByUsername = userRepository.findByUsername(user.getUsername());
+        if (existingUserByUsername.isPresent()) {
+            throw new IllegalStateException("Bu kullanıcı adı zaten kullanılıyor.");
+        }
         if (existingUser.isPresent()) {
             throw new IllegalStateException("Bu e-posta adresi zaten kayıtlı.");
         }

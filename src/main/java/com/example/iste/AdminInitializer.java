@@ -23,7 +23,7 @@ public class AdminInitializer implements CommandLineRunner {
         String adminRole = "ADMIN";
 
         // Eğer admin kullanıcı zaten varsa, yeniden oluşturma
-        if (userRepository.findByUsername(adminUsername) == null) {
+        if (userRepository.findByUsername(adminUsername).isEmpty()) {
             User admin = new User();
             admin.setUsername(adminUsername);
             admin.setEmail(adminEmail);
