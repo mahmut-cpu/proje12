@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebSocket Messaging</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+<h1>WebSocket Messaging</h1>
+<input type="text" id="message" placeholder="Enter your message">
+<button onclick="sendMessage()">Send</button>
+<div id="messages"></div>
+
+<script>
+    var socket = new SockJS('/ws');
+    var stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/messages', function(message) {
+            var messages = document.getElementById('messages');
+            var p = document.createElement('p');
+            p.appendChild(document.createTextNode(message.body));
+            messages.appendChild(p);
+        });
+    });
+
+    function sendMessage() {
+        var message = document.getElementById('message').value;
+        stompClient.send("/app/sendMessage", {}, message);
+        document.getElementById('message').value = '';
+    }
+</script>
+</body>
+</html>

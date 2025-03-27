@@ -3,10 +3,12 @@ package com.example.iste.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 @Configuration
 public class SecurityConfig {
@@ -16,7 +18,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/login-user", "/signup", "/public","/logo.png","/user-dashboard").authorizeHttpRequests(authz -> authz
+                .securityMatcher("/login-user", "/signup", "/public","/logo.png","/user-dashboard","/message-page").authorizeHttpRequests(authz -> authz
                         .requestMatchers("/user-dashboard").hasRole("USER")
                         .requestMatchers("/login-user", "/signup","/logo.png","/public").permitAll() // Public URLs
                         .anyRequest().authenticated()
@@ -62,5 +64,6 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

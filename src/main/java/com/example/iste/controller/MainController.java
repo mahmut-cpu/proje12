@@ -44,6 +44,11 @@ public class MainController {
     @Qualifier("userService")
     private UserService userService;
 
+    @GetMapping("/")
+    public String index() {
+        return "index";  // templates/index.html dosyasını döndürür
+    }
+
     // Public page (no login required)
     @GetMapping("/public")
     public String publicPage() {

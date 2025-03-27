@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment Scheduling</title>
     <style>
+        #user-dashboard {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+#user-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#user-list li {
+    margin: 5px 0;
+    padding: 8px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 .hidden-form{
                   background-color: #333;
     box-shadow: none; /* Gölgeyi kaldır */
@@ -237,6 +254,11 @@
 <nav>
     <a onclick="showContent('appointments')">Randevu</a>
     <a onclick="showContent('star')">Değerlendir</a>
+
+    <ul>
+        <li><a href="#" onclick="navigateToMessages()">Messages</a></li>
+    </ul>
+
 </nav>
 
 <!-- Hata mesajını göstermek için -->
@@ -308,87 +330,95 @@
 
 
 
+
+
 <footer>
     <p>&copy;2025 İSTE Yemekhane Randevu Sistemi</p>
     <p>Logo: <a href="https://commons.wikimedia.org/wiki/File:Iste_logo.png" target="_blank" style="color: #007bff;">İSTE Logo</a>. Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" style="color: #007bff;">CC BY-SA 4.0</a>.</p>
 </footer>
 
 <script>
-    // Zaman seçimi yapıldığında, tıklanan saati input alanına kaydeder ve butonu işaretler
-    function selectTime(time) {
-        // Tüm zamanları "seçilmeyen" duruma getir
-        var slots = document.querySelectorAll('.time-slot');
-        slots.forEach(function(slot) {
-            slot.classList.remove('selected');
-        });
-
-        // Seçilen zamanı input alanına kaydet
-        document.getElementById('selectedTime').value = time;
-
-        // Seçilen zaman butonunu işaretle
-        var selectedSlot = document.querySelector('.time-slot[onclick="selectTime(\'' + time + '\')"]');
-        selectedSlot.classList.add('selected');
+    function navigateToMessages() {
+        window.location.href = '/message-page';  // Mesajlar sayfasına yönlendir
     }
 
-    function showContent(sectionId) {
-        const sections = document.querySelectorAll('.content');
-        sections.forEach(section => section.classList.add('hidden'));
 
-        document.getElementById(sectionId).classList.remove('hidden');
-    }
 
-      let selectedStars = 0;
+  // Zaman seçimi yapıldığında, tıklanan saati input alanına kaydeder ve butonu işaretler
+  function selectTime(time) {
+      // Tüm zamanları "seçilmeyen" duruma getir
+      var slots = document.querySelectorAll('.time-slot');
+      slots.forEach(function(slot) {
+          slot.classList.remove('selected');
+      });
 
-  // Yıldızlara tıklama işlevi
-  const stars = document.querySelectorAll(".star");
-  stars.forEach(star => {
-    star.addEventListener("click", () => {
-      selectedStars = parseInt(star.getAttribute("data-value"));
-      updateStarRating();
-      document.getElementById("starValue").value = selectedStars; // Gizli inputa yıldız sayısını set et
-    });
-    star.addEventListener("mouseover", () => {
-      highlightStars(parseInt(star.getAttribute("data-value")));
-    });
-    star.addEventListener("mouseout", () => {
-      updateStarRating();
-    });
+      // Seçilen zamanı input alanına kaydet
+      document.getElementById('selectedTime').value = time;
+
+      // Seçilen zaman butonunu işaretle
+      var selectedSlot = document.querySelector('.time-slot[onclick="selectTime(\'' + time + '\')"]');
+      selectedSlot.classList.add('selected');
+  }
+
+  function showContent(sectionId) {
+      const sections = document.querySelectorAll('.content');
+      sections.forEach(section => section.classList.add('hidden'));
+
+      document.getElementById(sectionId).classList.remove('hidden');
+  }
+
+    let selectedStars = 0;
+
+// Yıldızlara tıklama işlevi
+const stars = document.querySelectorAll(".star");
+stars.forEach(star => {
+  star.addEventListener("click", () => {
+    selectedStars = parseInt(star.getAttribute("data-value"));
+    updateStarRating();
+    document.getElementById("starValue").value = selectedStars; // Gizli inputa yıldız sayısını set et
   });
+  star.addEventListener("mouseover", () => {
+    highlightStars(parseInt(star.getAttribute("data-value")));
+  });
+  star.addEventListener("mouseout", () => {
+    updateStarRating();
+  });
+});
 
-  // Yıldızları soldan sağa doğru renkli hale getirme
-  function updateStarRating() {
-    stars.forEach(star => {
-      const starValue = parseInt(star.getAttribute("data-value"));
-      if (starValue <= selectedStars) {
-        star.style.color = "gold"; // Seçilen yıldızları altın renk yap
-      } else {
-        star.style.color = "gray"; // Diğer yıldızları gri renk yap
-      }
-    });
-  }
-
-  // Fare ile üzerine gelindiğinde yıldızları vurgulama
-  function highlightStars(value) {
-    stars.forEach(star => {
-      const starValue = parseInt(star.getAttribute("data-value"));
-      if (starValue <= value) {
-        star.style.color = "gold"; // Gri yıldızları altın rengiyle vurgula
-      } else {
-        star.style.color = "gray"; // Diğer yıldızları gri tut
-      }
-    });
-  }
-
-  function submitComment() {
-    const comment = document.getElementById("commentInput").value;
-
-    if (comment && selectedStars > 0) {
-      alert("Yorum Gönderildi: " + comment + "\nYıldız: " + selectedStars);
-      // Burada yorum ve yıldız verilerini sunucuya gönderebilirsiniz
+// Yıldızları soldan sağa doğru renkli hale getirme
+function updateStarRating() {
+  stars.forEach(star => {
+    const starValue = parseInt(star.getAttribute("data-value"));
+    if (starValue <= selectedStars) {
+      star.style.color = "gold"; // Seçilen yıldızları altın renk yap
     } else {
-      alert("Lütfen bir yorum yazın ve yıldız seçin.");
+      star.style.color = "gray"; // Diğer yıldızları gri renk yap
     }
+  });
+}
+
+// Fare ile üzerine gelindiğinde yıldızları vurgulama
+function highlightStars(value) {
+  stars.forEach(star => {
+    const starValue = parseInt(star.getAttribute("data-value"));
+    if (starValue <= value) {
+      star.style.color = "gold"; // Gri yıldızları altın rengiyle vurgula
+    } else {
+      star.style.color = "gray"; // Diğer yıldızları gri tut
+    }
+  });
+}
+
+function submitComment() {
+  const comment = document.getElementById("commentInput").value;
+
+  if (comment && selectedStars > 0) {
+    alert("Yorum Gönderildi: " + comment + "\nYıldız: " + selectedStars);
+    // Burada yorum ve yıldız verilerini sunucuya gönderebilirsiniz
+  } else {
+    alert("Lütfen bir yorum yazın ve yıldız seçin.");
   }
+}
 
 </script>
 

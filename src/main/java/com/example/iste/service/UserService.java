@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("userService")
 public class UserService implements UserDetailsService {
@@ -22,6 +24,13 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    // Kullanıcıları listele
+    public List<User> getAllUsers() {
+        return userRepository.findAll();  // Tüm kullanıcıları döndür
+    }
+
+
 
     // Kullanıcıyı kaydetme metodu
     public User registerUser(User user) {
